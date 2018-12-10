@@ -1,11 +1,11 @@
 #       MAKEFILE
-CFLAGS = -g -Wall -o
+CFLAGS = -g -o
 GCC = g++ $(CFLAGS)
 
-all: frontEnd
+all: comp
 
-frontEnd:     main.cpp node.cpp parser.cpp scanner.cpp utility.cpp semantics.cpp statSem.cpp token.cpp nonTerminalBank.cpp
-	$(GCC) $(CFLAGS) frontEnd main.cpp node.cpp parser.cpp scanner.cpp utility.cpp semantics.cpp statSem.cpp token.cpp nonTerminalBank.cpp -std=c++11
+comp:     main.cpp node.cpp parser.cpp scanner.cpp utility.cpp semantics.cpp statSem.cpp token.cpp nonTerminalBank.cpp codeGen.cpp
+	$(GCC) $(CFLAGS) comp main.cpp node.cpp parser.cpp scanner.cpp utility.cpp semantics.cpp statSem.cpp token.cpp nonTerminalBank.cpp codeGen.cpp -std=c++11
 
 clean:
-	rm -f *.o a.out frontEnd
+	rm -f *.o *.asm a.out comp

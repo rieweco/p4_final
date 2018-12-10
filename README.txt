@@ -1,3 +1,5 @@
+Storage=Global
+
 *********************************************************
 *         	      README FILE			*
 *********************************************************
@@ -30,14 +32,14 @@
 
 TO COMPILE: make
 
-TO RUN: ./frontEnd[filename]
+TO RUN: ./comp[filename]
 
 	filename is optional argument.
 	files must end in .fs182
 	if filename is test.fs182,
 	it should be entered without .fs182
 
-	ie. ./frontEnd test
+	ie. ./comp test
 
 
 	if no argument is entered, keyboard
@@ -46,7 +48,7 @@ TO RUN: ./frontEnd[filename]
 	May have to press enter after pasting
 	input into console.
 
-	ie. ./frontEnd
+	ie. ./comp
 		paste in:
 			void
 			var x : 1 

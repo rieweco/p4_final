@@ -4,13 +4,14 @@
 #include <fstream>
 #include "parser.h"
 #include "statSem.h"
+#include "codeGen.h"
 
 using namespace std;
 
 //vars
 static string NO_FILE_EXTENSION = "out";
 static string FILE_IN_EXTENSION = ".fs182";
-
+static string ASM_FILE_EXTENSION = ".asm";
 
 //functions
 string getKBData();
@@ -84,12 +85,15 @@ string getFileData(string &extendedFileName) {
 void parseProgram(string &program, string &fileName) {
     Parser *parser = new Parser(program);
     Node *tree = parser->parse();
-    cout << tree->toString();
+    //uncomment to print tree for P2
+    //cout << tree->toString();
 
-    //StatSem *statSem = new StatSem(tree);
-    //const string check = statSem->runCheck();
+    StatSem *statSem = new StatSem(tree);
+    const string check = statSem->runCheck();
+    cout << check << endl;
 
-    //cout << check << endl; 
+    string codeGenFileName = fileName + ASM_FILE_EXTENSION;
+    CodeGen *codeGen = new CodeGen(tree, codeGenFileName); 
        
 }
 

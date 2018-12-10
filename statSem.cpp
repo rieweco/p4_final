@@ -11,7 +11,6 @@ StatSem::~StatSem() = default;
 
 const string StatSem::runCheck() {
     string checkResult = checkSem(parseTree);
-    cout << "Semantics Check Completed Scuccessfully\n";
     return checkResult;
 }
 
@@ -23,11 +22,8 @@ const string StatSem::checkSem(const Node *node) {
 	    if(childNodes.size() == 2) {
 		//void
 		//<vars>
-		cout << childNodes.at(0)->getValue();
-		cout << childNodes.at(1)->getValue();
 		checkSem(childNodes.at(0));
 		
-		cout << "inside program\n";
 		//<block>
 		checkSem(childNodes.at(1));
 
@@ -89,6 +85,7 @@ const string StatSem::checkSem(const Node *node) {
 	else if(node->getNonTerminalIdentifier() == EXPR) {
 	    if(childNodes.size() == 1) {
 	   	//<A>
+	   	checkSem(childNodes.at(0));
             }
 	    else if(childNodes.size() == 3 && childNodes.at(1)->getValue() == "/") {
 		//<A>
@@ -109,6 +106,7 @@ const string StatSem::checkSem(const Node *node) {
 	else if(node->getNonTerminalIdentifier() == A) {
 	    if(childNodes.size() == 1) {
 	   	//<M>
+	   	checkSem(childNodes.at(0));
             }
 	    else if(childNodes.size() == 3 && childNodes.at(1)->getValue() == "+") {
 		//<M>
