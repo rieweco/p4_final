@@ -2,6 +2,7 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <stack>
 
 using namespace std;
 
@@ -26,6 +27,10 @@ void CodeGen::generateCode(const Node *node) {
  	    //block
 	    generateCode(childNodes.at(1));
 	    printToTarget("STOP");
+ 	    cout << getGlobalVarSize() << endl;
+	    while(!getGlobalVarSize() == 0) {
+		printToTarget(popStack() + " 0");
+	    }
 	    int limit = CodeGen::var;
 	    for(int i = 0; i < limit; i++) {
 		string temp = "T" + to_string(i) + " 0";
@@ -44,6 +49,7 @@ void CodeGen::generateCode(const Node *node) {
 	    else {
 	    	printToTarget("LOAD " + childNodes.at(3)->getValue());
 	    	printToTarget("STORE " + childNodes.at(1)->getValue());
+		pushStack(childNodes.at(1)->getValue());
 	    	generateCode(childNodes.at(4));	
 	    }
     	}
@@ -303,8 +309,19 @@ string CodeGen::getLoopLabel() {
     return CodeGen::loopLabel;
 }
 
+void CodeGen::pushStack(string gVar) {
+    CodeGen::globalStack.push(gVar);
+}
 
+string CodeGen::popStack() {
+    string gvar = CodeGen::globalStack.top();
+    CodeGen::globalStack.pop();
+    return gvar;
+}
 
+int CodeGen::getGlobalVarSize() {
+    return CodeGen::globalStack.size();
+}
 
 
 

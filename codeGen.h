@@ -4,6 +4,7 @@
 #include "semantics.h"
 #include "node.h"
 #include <string>
+#include <stack>
 
 using namespace std;
 
@@ -16,6 +17,7 @@ private:
     int ro;
     int isLoop;
     string loopLabel;
+    stack <string> globalStack;
 
 public:
     explicit CodeGen(const Node *parseTree, string &fileName);
@@ -32,6 +34,9 @@ public:
     void setLoopLabel(string lLabel);
     string getLoopLabel();
     void printToTarget(string output);
+    void pushStack(string gVar);
+    string popStack();
+    int getGlobalVarSize();
 };
 
 
