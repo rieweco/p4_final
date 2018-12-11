@@ -14,6 +14,8 @@ private:
     int var;
     int label;
     int ro;
+    int isLoop;
+    string loopLabel;
 
 public:
     explicit CodeGen(const Node *parseTree, string &fileName);
@@ -25,6 +27,10 @@ public:
     string getLabel();
     void setRO(int rel);
     int getRO();
+    void setLoop(int loop);
+    int getLoop();
+    void setLoopLabel(string lLabel);
+    string getLoopLabel();
     void printToTarget(string output);
 };
 

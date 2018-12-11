@@ -9,6 +9,8 @@ CodeGen::CodeGen(const Node *parseTree, string &fileName) : parseTree(parseTree)
     filename = fileName;
     var = 0;
     label = 0;
+    isLoop = 0;
+    loopLabel = "";
     generateCode(parseTree);
     cout << "Code Gen Complete!" << endl;
 }
@@ -107,11 +109,21 @@ void CodeGen::generateCode(const Node *node) {
 	    }
 	    else if(childNodes.size() == 1 && isalpha(childNodes.at(0)->getValue()[0])) {
 	    	//Identifier
-	    	printToTarget("LOAD " + childNodes.at(0)->getValue());
+	    	if(getLoop() == 0) {
+	    	    printToTarget("LOAD " + childNodes.at(0)->getValue());
+		}
+		else {
+		    printToTarget(getLoopLabel() + childNodes.at(0)->getValue());
+		}
 	    }
 	    else if(childNodes.size() == 1 && isdigit(childNodes.at(0)->getValue()[0])) {
 	    	//Integer
-	    	printToTarget("LOAD " + childNodes.at(0)->getValue());
+	    	if(getLoop() == 0) {
+	    	    printToTarget("LOAD " + childNodes.at(0)->getValue());
+		}
+		else {
+		    printToTarget(getLoopLabel() + childNodes.at(0)->getValue());
+	   	}
 	    }
     	}
     	else if(node->getNonTerminalIdentifier() == STATS) {
@@ -171,12 +183,13 @@ void CodeGen::generateCode(const Node *node) {
 	    printToTarget(tLabel + ": NOOP");
     	}
     	else if(node->getNonTerminalIdentifier() == LOOP) {
-
+	    setLoop(1);
 	    string inLabel = "L" + getLabel();
 	    string outLabel = "L" + getLabel();
 	    string temp = "T" + getVar();
-	    printToTarget(inLabel + ": ");
+	    setLoopLabel(inLabel + ": LOAD ");
 	    generateCode(childNodes.at(4));
+	    setLoop(0);
 	    printToTarget("STORE " + temp);
 	    generateCode(childNodes.at(2));
 	    printToTarget("SUB " + temp);
@@ -273,5 +286,33 @@ int CodeGen::getRO() {
 void CodeGen::setRO(int rel) {
     CodeGen::ro = rel;
 }
+
+void CodeGen::setLoop(int loop) {
+    CodeGen::isLoop = loop;
+}
+
+int CodeGen::getLoop() {
+    return CodeGen::isLoop;
+}
+
+void CodeGen::setLoopLabel(string lLabel) {
+    CodeGen::loopLabel = lLabel;
+}
+
+string CodeGen::getLoopLabel() {
+    return CodeGen::loopLabel;
+}
+
+
+
+
+
+
+
+
+
+
+
+
 
 
